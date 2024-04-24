@@ -10,7 +10,11 @@ import com.betrybe.trybevirtualmenu.R
 import android.view.ViewGroup
 import android.view.LayoutInflater
 
-class MenuAdapter : RecyclerView.Adapter<MenuAdapter.ViewHolder>() {
+class MenuAdapter(private val listener: OnDishClickListener) : RecyclerView.Adapter<MenuAdapter.ViewHolder>() {
+
+    interface OnDishClickListener {
+        fun onDishClick(dish: Dish)
+    }
 
     private val dishes: List<Dish> = DataMenu().getDishes()
 
@@ -28,6 +32,7 @@ class MenuAdapter : RecyclerView.Adapter<MenuAdapter.ViewHolder>() {
         val dish = dishes[position]
         holder.name.text = dish.name
         holder.image.setImageResource(dish.image)
+        holder.itemView.setOnClickListener { listener.onDishClick(dish) }
     }
 
     override fun getItemCount() = dishes.size
